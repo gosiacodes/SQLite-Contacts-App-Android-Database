@@ -58,9 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                String value = arrayAdapter.getItem(position);
-                Toast.makeText(getApplicationContext(),value, Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DatabaseHandler db = new DatabaseHandler(view.getContext());
+
+                Contact contact = db.getContact(position);
+
+                Toast.makeText(view.getContext(),"Contact's id: " + contact.getId(), Toast.LENGTH_SHORT).show();
             }
         });
 

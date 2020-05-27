@@ -48,16 +48,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     Contact getContact (int id){
+        String query = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE ID=" + ++id;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query (TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_PHONE}, KEY_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.rawQuery(query, null);
 
-        if (cursor != null){
-            cursor.moveToFirst();
+        Contact contact = null;
+
+        if (cursor.moveToFirst()){
+                contact = new Contact();
+                contact.setId(Integer.parseInt(cursor.getString(0)));
+                contact.setName(cursor.getString(1));
+                contact.setPhone_number(cursor.getString(2));
         }
 
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
         return contact;
     }
 
